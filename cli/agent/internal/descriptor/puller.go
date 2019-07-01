@@ -1,6 +1,8 @@
 package descriptor
 
 import (
+	"fmt"
+
 	"github.com/iocplatform/agent/pkg/puller/api"
 	"github.com/iocplatform/agent/pkg/puller/http"
 )
@@ -26,6 +28,10 @@ func (p *Puller) Build() (api.Puller, error) {
 	case "http":
 		p.concrete, err = http.Build(p.Parameters)
 	default:
+	}
+
+	if p.concrete == nil {
+		return nil, fmt.Errorf("unsupported puller type '%s'", p.Type)
 	}
 
 	return p.concrete, err

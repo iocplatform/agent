@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/common-nighthawk/go-figure v0.0.0-20190529165535-67e0ed34491a
+	github.com/davecgh/go-spew v1.1.1
 	github.com/fatih/color v1.7.0
 	github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af
 	github.com/magefile/mage v1.8.0
@@ -21,4 +22,5 @@ require (
 	go.zenithar.org/pkg/platform v0.0.26
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	golang.org/x/xerrors v0.0.0-20190513163551-3ee3066db522
+	gopkg.in/yaml.v2 v2.2.2
 )

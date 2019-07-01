@@ -1,6 +1,8 @@
 package descriptor
 
 import (
+	"fmt"
+
 	"github.com/iocplatform/agent/pkg/parser/api"
 	"github.com/iocplatform/agent/pkg/parser/csv"
 	"github.com/iocplatform/agent/pkg/parser/regex"
@@ -30,6 +32,10 @@ func (p *Parser) Build() (api.Parser, error) {
 	case "regex":
 		p.concrete, err = regex.Build(p.Parameters)
 	default:
+	}
+
+	if p.concrete == nil {
+		return nil, fmt.Errorf("unsupported parser type '%s'", p.Type)
 	}
 
 	return p.concrete, err

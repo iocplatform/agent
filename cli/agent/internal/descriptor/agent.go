@@ -11,7 +11,7 @@ type Agent struct {
 	Defaults map[string]interface{} `yaml:"defaults"`
 
 	// Puller definition
-	Puller Puller `yaml:"connector"`
+	Puller Puller `yaml:"puller"`
 
 	// Parser definition
 	Parser Parser `yaml:"parser"`

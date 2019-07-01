@@ -16,7 +16,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/iocplatform/agent/pkg/dispatcher"
 	"github.com/iocplatform/agent/pkg/puller/api"
+
 	"github.com/minio/blake2b-simd"
 	"github.com/sethgrid/pester"
 	"go.zenithar.org/pkg/log"
@@ -65,7 +67,9 @@ func New(opts ...Option) (api.Puller, error) {
 
 // -----------------------------------------------------------------------------
 
-func (c *httpPuller) Pull(ctx context.Context) error {
+func (c *httpPuller) Pull(ctx context.Context, d dispatcher.Dispatcher) error {
+	log.For(ctx).Info("Requesting file usign http puller")
+
 	// Prepare the http query
 	bodyReader, responseTime, lastModifiedDate, err := c.sendRequest(ctx)
 	if err != nil {
@@ -123,7 +127,28 @@ func (c *httpPuller) Pull(ctx context.Context) error {
 	result["hash"] = fmt.Sprintf("%x", h.Sum(nil))
 
 	// No error
-	return nil
+	return d.Dispatch(ctx, result)
+}
+
+func (c *httpPuller) SetParameters(parameters map[string]interface{}) {
+	var options []Option
+
+	for key, value := range parameters {
+		switch key {
+		case "url":
+			options = append(options, WithURL(value.(string)))
+		case "method":
+			options = append(options, WithMethod(value.(string)))
+		case "parameters":
+			options = append(options, WithParameters(value.(map[string]string)))
+		default:
+		}
+	}
+
+	// Assign all options
+	for _, opt := range options {
+		opt(&c.dopts)
+	}
 }
 
 // -----------------------------------------------------------------------------

@@ -55,7 +55,7 @@ func Build() {
 	fmt.Println("")
 
 	color.Red("# Core packages ------------------------------------------------------------")
-	mg.SerialDeps(Go.Deps, Go.License, Go.Generate, Go.Format, Go.Lint, Go.Test)
+	mg.SerialDeps(Go.Deps, Go.License, Go.Generate, Go.Import, Go.Format, Go.Lint, Go.Test)
 
 	fmt.Println("")
 	color.Red("# Artifacts ----------------------------------------------------------------")
@@ -223,7 +223,7 @@ func getGoSrcFiles() []string {
 	var goSrcFiles []string
 
 	for _, path := range goFiles {
-		if !strings.HasSuffix(path, "_test.go") {
+		if strings.HasSuffix(path, "_test.go") {
 			continue
 		}
 

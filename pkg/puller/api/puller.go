@@ -1,8 +1,14 @@
 package api
 
-import "context"
+import (
+	"context"
+
+	"github.com/iocplatform/agent/pkg/dispatcher"
+)
 
 // Puller defines pull strategy contract
 type Puller interface {
-	Pull(ctx context.Context) error
+	GetName() string
+	SetParameters(map[string]interface{})
+	Pull(ctx context.Context, d dispatcher.Dispatcher) error
 }
